@@ -14,40 +14,40 @@ class App extends Component {
   }
   componentWillMount(){
     /* Create reference to messages in Firebase Database */
-    let messagesRef = fire.database().ref('messages').orderByKey().limitToLast(100);
-    messagesRef.on('child_added', snapshot => {
-      /* Update React state when message is added at Firebase Database */
-      let message = { text: snapshot.val(), id: snapshot.key };
-      this.setState({ messages: [message].concat(this.state.messages) });
-    })
+    // let messagesRef = fire.database().ref('messages').orderByKey().limitToLast(100);
+    // messagesRef.on('child_added', snapshot => {
+    //   /* Update React state when message is added at Firebase Database */
+    //   let message = { text: snapshot.val(), id: snapshot.key };
+    //   this.setState({ messages: [message].concat(this.state.messages) });
+    // })
 
 
      let coinsRef = fire.database().ref('coins').orderByKey().limitToLast(100);
      coinsRef.on('child_added', snapshot => {
        /* Update React state when message is added at Firebase Database */
-        let coin = { name: snapshot.val(), id:snapshot.key};
-        console.log(coin);
+        let newData = { dataset: snapshot.val(), id:snapshot.key};
+        console.log(newData.dataset[0]);
         // this.setState({ coins: });
      })
 
-    getPriceData().then(
-    response => {
-      if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-          response.status);
-        return;
-      }
-        response.json().then(data => {
-          fire.database().ref('coins').push( data );
-          this.setState({ coins:data });
-          console.log(this.state.coins[0]);
-        return data[0];
+        getPriceData().then(
+        response => {
+          if (response.status !== 200) {
+            console.log('Looks like there was a problem. Status Code: ' +
+              response.status);
+            return;
+          }
+            response.json().then(data => {
+              fire.database().ref('coins').push( data );
+              this.setState({ coins:data });
+              console.log(this.state.coins[0]);
+            return data[0];
+          });
+        }
+      )
+      .catch(function(err) {
+        console.log('Fetch Error :-S', err);
       });
-    }
-  )
-  .catch(function(err) {
-    console.log('Fetch Error :-S', err);
-  });
   }
   addMessage(e){
     e.preventDefault(); // <- prevent form submit from reloading the page
