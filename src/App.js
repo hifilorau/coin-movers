@@ -26,6 +26,7 @@ class App extends Component {
      coinsRef.on('child_added', snapshot => {
        /* Update React state when message is added at Firebase Database */
         let coin = { name: snapshot.val(), id:snapshot.key};
+        console.log(coin);
         // this.setState({ coins: });
      })
 
@@ -55,9 +56,15 @@ class App extends Component {
     this.inputEl.value = ''; // <- clear the input
   }
 
+   calculateCoin = (e) => {
+       e.preventDefault();
+    console.log('query data');
+   }
+
   render() {
     return (
-      <form onSubmit={this.addMessage.bind(this)}>
+    //   <form onSubmit={this.addMessage.bind(this)}>
+     <form onSubmit={this.calculateCoin.bind(this)}>
         <input type="text" ref={ el => this.inputEl = el }/>
         <input type="submit"/>
         <ul>
