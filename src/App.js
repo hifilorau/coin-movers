@@ -21,6 +21,7 @@ class App extends Component {
       this.setState({ messages: [message].concat(this.state.messages) });
     })
 
+
      let coinsRef = fire.database().ref('coins').orderByKey().limitToLast(100);
      coinsRef.on('child_added', snapshot => {
        /* Update React state when message is added at Firebase Database */
@@ -54,7 +55,6 @@ class App extends Component {
     this.inputEl.value = ''; // <- clear the input
   }
 
-
   render() {
     return (
       <form onSubmit={this.addMessage.bind(this)}>
@@ -64,7 +64,6 @@ class App extends Component {
           { /* Render the list of messages */
             this.state.messages.map( message => <li key={message.id}>{message.text}</li> )
             // this.state.data.map( coin => <li key={coin.id}>{coin.name}{coin.price_usd}</li> )
-
           }
         </ul>
       </form>
