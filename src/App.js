@@ -26,8 +26,10 @@ class App extends Component {
      coinsRef.on('child_added', snapshot => {
        /* Update React state when message is added at Firebase Database */
         let newData = { dataset: snapshot.val(), id:snapshot.key};
-        console.log(newData.dataset[0]);
-        // this.setState({ coins: });
+        let hourlyChange = newData.dataset[0].percent_change_1h;
+        let coinName = newData.dataset[0].name;
+        console.log(hourlyChange + " " + coinName);
+
      })
 
         getPriceData().then(
@@ -40,7 +42,7 @@ class App extends Component {
             response.json().then(data => {
               fire.database().ref('coins').push( data );
               this.setState({ coins:data });
-              console.log(this.state.coins[0]);
+            //   console.log(this.state.coins[0]);
             return data[0];
           });
         }
