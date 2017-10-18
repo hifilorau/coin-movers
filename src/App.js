@@ -20,7 +20,7 @@ class App extends Component {
       let message = { text: snapshot.val(), id: snapshot.key };
       this.setState({ messages: [message].concat(this.state.messages) });
     })
-    getPriceData();
+  getPriceData().then(data => this.setState({data}));
   }
   addMessage(e){
     e.preventDefault(); // <- prevent form submit from reloading the page

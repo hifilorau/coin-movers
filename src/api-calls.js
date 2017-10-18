@@ -10,7 +10,8 @@ fetch('https://api.coinmarketcap.com/v1/ticker/')
 
       // Examine the text in the response
       response.json().then(function(data) {
-        console.log(data);
+        // console.log(data);
+        return data;
       });
     }
   )
