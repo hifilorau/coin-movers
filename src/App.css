@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
+
+
 .App {
   text-align: center;
 }
@@ -21,6 +25,95 @@
 .App-intro {
   font-size: large;
 }
+
+
+.mover-outer, .header {
+    font-family: 'VT323', monospace;
+    /*font-size: 1.5em;*/
+}
+
+.movers-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  max-width: 85%;
+  list-style: none;
+}
+
+.header h1 {
+  text-align: center;
+  font-size: 3em;
+}
+
+div {
+  color: white;
+}
+
+.market-size {
+  position: absolute;
+  top: 20px;
+  right: 5px;
+  font-size: 1.25em;
+}
+.movers {
+  margin: 5px;
+  padding: 1em;
+  /*border: 3px solid white;*/
+  height: 300px;
+  width: 300px;
+  box-sizing: border-box;
+  position: relative;
+  background-color: green;
+}
+
+.center-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform:translate(-50%,-50%);
+  border: 3px solid white;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  text-align: center;
+  /*line-height: 125px;*/
+  /*margin-top: 2em;*/
+}
+
+.coin-name {
+   font-size: 1.5em;
+}
+
+.hourly-change {
+  font-size: 2rem;
+}
+
+.hourly-change, .coin-name {
+  position: relative;
+  top: 40px;
+}
+
+.daily-change {
+  font-size: 1.4em;
+}
+
+.daily-change-label {
+  font-size: .9rem;
+  margin-left: 1.25em;
+}
+
+.last-updated {
+  position: absolute;
+   bottom: 3%;
+   font-size: .9rem;
+   left: 50%;
+   transform: translateX(-50%);
+}
+
+
+
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
