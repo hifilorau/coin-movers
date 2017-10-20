@@ -5,17 +5,10 @@
   padding: 0;
 }
 
-<<<<<<< HEAD
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: black;
-=======
+
 .app-wrapper {
   max-width: 85%;
   margin: 0 auto;
->>>>>>> ca1cc21c137ce2c3c8e6d4824bfafa0cd42deb59
 }
 
 .filter-wrapper {
@@ -54,13 +47,6 @@
   font-size: 3em;
 }
 
-<<<<<<< HEAD
-.header {
-  color: #333;
-}
-
-=======
->>>>>>> ca1cc21c137ce2c3c8e6d4824bfafa0cd42deb59
 .market-size {
   position: absolute;
   top: 20px;
@@ -119,14 +105,10 @@
 }
 
 .coin-name {
-<<<<<<< HEAD
    font-size: 1.3em;
-=======
-   font-size: 1.5em;
    max-height: 27px;
    overflow-y: hidden;
    /*color: white;*/
->>>>>>> ca1cc21c137ce2c3c8e6d4824bfafa0cd42deb59
 }
 
 .coin-price {
@@ -172,17 +154,9 @@
 }
 
 .add-favorites {
-  bottom: 2px;
-  right: 5px;
-  position: absolute;
-  font-size: 2em;
-  width: 1.3em;
-  text-align: center;
-  cursor: pointer;
-}
-
-.add-favorites:hover {
-  color: purple;
+    bottom: 0;
+    right: 0;
+    position: absolute;
 }
 
 

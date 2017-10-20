@@ -140,12 +140,12 @@ class App extends Component {
   });
  }
 
- formatMoney(n) {
+ formatMoney = (n) => {
   //  return "$" + parseInt(n).toFixed(0).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
      return formatter.format(parseInt(n, 10));
  }
 
- convertEpochToDate(epoch) {
+ convertEpochToDate = (epoch) => {
     const dateObj = Date(epoch);
     return moment(dateObj).format('MMM Do, h:mm');
  }
