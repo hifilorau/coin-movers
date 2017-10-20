@@ -1,29 +1,36 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,700');
 
-
-
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
+<<<<<<< HEAD
 .App-header {
   background-color: #222;
   height: 150px;
   padding: 20px;
   color: black;
+=======
+.app-wrapper {
+  max-width: 85%;
+  margin: 0 auto;
+>>>>>>> ca1cc21c137ce2c3c8e6d4824bfafa0cd42deb59
 }
 
-.App-title {
-  font-size: 1.5em;
+.filter-wrapper {
+  margin-left: 6em;
+  /*margin: 0 auto;*/
 }
 
-.App-intro {
-  font-size: large;
+.button {
+  border-radius: 0;
+  padding: 1em;
+  background: #E68831;
+  color: white;
+  border: none;
+  margin-right: 1em;
+  font-size: .9em;
 }
 
 
@@ -36,8 +43,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 0 auto;
-  max-width: 85%;
+  width: 100%;
   list-style: none;
   justify-content: center;
   color: white;
@@ -48,10 +54,13 @@
   font-size: 3em;
 }
 
+<<<<<<< HEAD
 .header {
   color: #333;
 }
 
+=======
+>>>>>>> ca1cc21c137ce2c3c8e6d4824bfafa0cd42deb59
 .market-size {
   position: absolute;
   top: 20px;
@@ -80,7 +89,10 @@
 
 .movers-link {
     display: inline-block;
-    padding: 100%;
+    color: white;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
 }
 
 .center-content {
@@ -97,12 +109,24 @@
   /*margin-top: 2em;*/
 }
 
+.center-content a {
+  position: relative;
+}
+
+
 .coin-label {
     text-align:center;
 }
 
 .coin-name {
+<<<<<<< HEAD
    font-size: 1.3em;
+=======
+   font-size: 1.5em;
+   max-height: 27px;
+   overflow-y: hidden;
+   /*color: white;*/
+>>>>>>> ca1cc21c137ce2c3c8e6d4824bfafa0cd42deb59
 }
 
 .coin-price {
