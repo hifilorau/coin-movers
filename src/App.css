@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=VT323');
+@import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,700');
 
 
 
@@ -15,7 +15,7 @@
   background-color: #222;
   height: 150px;
   padding: 20px;
-  color: white;
+  color: black;
 }
 
 .App-title {
@@ -28,7 +28,7 @@
 
 
 .mover-outer, .header {
-    font-family: 'VT323', monospace;
+    font-family: 'Quicksand', sans-serif;
     /*font-size: 1.5em;*/
 }
 
@@ -40,6 +40,7 @@
   max-width: 85%;
   list-style: none;
   justify-content: center;
+  color: white;
 }
 
 .header h1 {
@@ -47,8 +48,8 @@
   font-size: 3em;
 }
 
-div {
-  color: white;
+.header {
+  color: #333;
 }
 
 .market-size {
@@ -67,6 +68,10 @@ div {
   position: relative;
   background-color: #485B86;
   transition: 1s;
+}
+
+.movers:a {
+    color:white;
 }
 
 .movers:hover {
@@ -97,23 +102,27 @@ div {
 }
 
 .coin-name {
-   font-size: 1.5em;
+   font-size: 1.3em;
 }
 
 .coin-price {
     position: absolute;
-    bottom: 33px;
+    bottom: 23px;
     left: 50%;
     transform:translateX(-50%);
 }
 
 .hourly-change {
-  font-size: 2rem;
+  font-size: 1.7rem;
 }
 
 .hourly-change, .coin-name {
   position: relative;
   top: 40px;
+}
+
+.hourly-change, .coin-name, .coin-price {
+    color: white;
 }
 
 .daily-change {
