@@ -4,6 +4,7 @@ import './App.css';
 import fire from './fire';
 import { getPriceData, getCoinData } from './api-calls';
 import moment from 'moment';
+import CoinBox from './coinbox'
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -12,6 +13,8 @@ const formatter = new Intl.NumberFormat('en-US', {
   // the default value for minimumFractionDigits depends on the currency
   // and is usually already 2
 });
+
+const favorites = [];
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +25,8 @@ class App extends Component {
       bigMovers: [],
       bitcoin: {},
       showBigLosers: false,
-      newData: []
+      newData: [],
+      favorites: []
     }; // <- set up react state
   }
   componentWillMount() {
@@ -85,6 +89,11 @@ class App extends Component {
    })
   }
 
+  addToFavorites(favorite) {
+    favorites.push(favorite);
+    console.log(favorites);
+  }
+
  renderBigMovers() {
    let array = this.state.bigMovers;
    this.sortArray(array);
@@ -104,6 +113,7 @@ class App extends Component {
             {/* <div className="market-size">{"$" + parseInt(data.market_cap_usd).toFixed(0) } </div> */}
                         <div className="market-size">{ this.formatMoney(data.market_cap_usd) } </div>
             <div className="last-updated">{ this.convertEpochToDate(data.last_updated) } </div>
+            <div onClick={(e) => this.addToFavorites(data) } className="add-favorites">+</div>
           </li>
         );
       }
@@ -123,6 +133,7 @@ class App extends Component {
              {/* <div className="market-size">{"$" + parseInt(data.market_cap_usd).toFixed(0) } </div> */}
                          <div className="market-size">{ this.formatMoney(data.market_cap_usd) } </div>
              <div className="last-updated">{ this.convertEpochToDate(data.last_updated) } </div>
+             <div onClick={(e) => this.addToFavorites(data) } className="add-favorites">+</div>
            </li>
          );
        }

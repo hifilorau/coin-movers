@@ -171,6 +171,19 @@
    transform: translateX(-50%);
 }
 
+.add-favorites {
+  bottom: 2px;
+  right: 5px;
+  position: absolute;
+  font-size: 2em;
+  width: 1.3em;
+  text-align: center;
+  cursor: pointer;
+}
+
+.add-favorites:hover {
+  color: purple;
+}
 
 
 
