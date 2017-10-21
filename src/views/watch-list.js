@@ -1,12 +1,13 @@
 // src/components/About/index.js
 import React, { PropTypes, Component } from 'react';
 
-export default class About extends Component {
+export default class WatchList extends Component {
   // static propTypes = {}
   // static defaultProps = {}
   // state = {}
 
   render() {
+    const {  ...props } = this.props;
     return (
       <div className="watch-list-outer">
         <h1>

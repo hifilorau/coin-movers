@@ -4,7 +4,7 @@ import './App.css';
 import fire from './fire';
 import { getPriceData, getCoinData } from './api-calls';
 import moment from 'moment';
-import CoinBox from './coinbox'
+import CoinBox from './coinbox';
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
