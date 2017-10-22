@@ -10,6 +10,10 @@
   margin: 0 auto;
 }
 
+.app-outer-wrapper {
+  background-color: #9FAFC4;
+}
+
 .filter-wrapper {
   margin-left: 6em;
   /*margin: 0 auto;*/

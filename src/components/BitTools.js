@@ -7,18 +7,6 @@ import { getCoinData } from '../api-calls';
 import fire from '../fire';
 import ReactTable from 'react-table';
 
-export const snapshotToArray = snapshot => {
-    let returnArr = [];
-
-    snapshot.forEach(childSnapshot => {
-        let item = childSnapshot.val();
-        item.key = childSnapshot.key;
-        returnArr.push(item);
-    });
-
-    return returnArr;
-};
-
 class BitTools extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +14,8 @@ class BitTools extends Component {
         newCoinId: "",
         newCoinAmount: "",
         newCoin: {},
-        watchList: []
+        watchList: [],
+        totalValue: ""
     };
     this.watchList = [];
     this.newCoin = {};
@@ -35,15 +24,54 @@ class BitTools extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    //   fire.database().ref('watchList').remove();
      let watchListRef = fire.database().ref('watchList').limitToLast(100);
      watchListRef.on('value', snapshot => {
-         console.log(snapshotToArray(snapshot));
        /* Update React state when message is added at Firebase Database */
-        let newData = snapshotToArray(snapshot);
-       this.setState( {watchList:newData} );
+      let newData = this.snapshotToArray(snapshot);
+    //    this.setState( {watchList:newData} );
      })
- }
+  }
+
+   snapshotToArray = snapshot => {
+     let returnArr = [];
+     let totalValue = 0;
+     let totalValueFixed = 0;
+
+     snapshot.forEach(childSnapshot => {
+         let item = childSnapshot.val();
+         item.key = childSnapshot.key;
+         getCoinData(item.id).then(
+           response => {
+             if (response.status !== 200) {
+               console.log('Looks like there was a problem. Status Code: ' +
+                 response.status);
+               return;
+             }
+               response.json().then(data => {
+                 data = data[0]
+                 item.price_usd = data.price_usd
+                 item.name = data.name
+                 item.valueInUSD = item.amount * item.price_usd
+                 totalValue = totalValue + item.valueInUSD
+                 totalValueFixed = totalValue.toFixed(2)
+                 this.setState( {totalValue:totalValueFixed} );
+               return;
+             });
+           }
+         )
+         .catch(function(err) {
+           console.log('Fetch Error :-S', err);
+         });
+         console.log(item);
+         returnArr.push(item);
+     });
+     console.log(returnArr);
+      this.setState( {watchList:returnArr, totalValue: totalValue} );
+      console.log(this.state.watchList);
+     return returnArr;
+   };
 
   handleNewCoinIdChange(event) {
    this.setState({newCoinId: event.target.value});
@@ -55,40 +83,19 @@ class BitTools extends Component {
 
  handleSubmit(event) {
    event.preventDefault();
-   getCoinData(this.state.newCoinId).then(
-     response => {
-       if (response.status !== 200) {
-         console.log('Looks like there was a problem. Status Code: ' +
-           response.status);
-         return;
-       }
-         response.json().then(data => {
-           // fire.database().ref('coins').push( data );
-           this.setState({ newCoin:data[0] });
-           this.newCoin = this.state.newCoin
-           this.newCoin.amount = this.state.newCoinAmount;
-           this.newCoin.valueInUSD = this.newCoin.amount * this.newCoin.price_usd
-           fire.database().ref('watchList').push( this.newCoin );
-           this.setState( {
-               newCoinId: "",
-               newCountAmount:""
-           } )
-         return;
-       });
-     }
-   )
-   .catch(function(err) {
-     console.log('Fetch Error :-S', err);
-   });
-
+   this.newCoin.id = this.state.newCoinId;
+   this.newCoin.amount = this.state.newCoinAmount;
+   fire.database().ref('watchList').push( this.newCoin );
+   let watchListRef = fire.database().ref('watchList').limitToLast(100);
+   watchListRef.on('value', snapshot => {
+     /* Update React state when message is added at Firebase Database */
+     let newData = this.snapshotToArray(snapshot);
+     this.setState( {watchList:newData} );
+   })
   }
 
-  // addCoinToWatchList() => {
-  //
-  // }
-
   render() {
-    // const data = this.state.watchList;
+    console.log(this.state.watchList);
     const columns = [{
         Header: 'Coin Name',
         accessor: 'name'
@@ -98,6 +105,9 @@ class BitTools extends Component {
     }, {
         Header: 'Amount Held',
         accessor: 'amount'
+    }, {
+        Header: 'Total $',
+        accessor: 'valueInUSD'
     }
 
     ];
@@ -106,15 +116,18 @@ class BitTools extends Component {
         <h1>WatchList</h1>
         <div className="add-container">
             <form onSubmit={this.handleSubmit}>
-            <input placeholder="symbol" type="text" value={this.state.newCoinId} onChange={this.handleNewCoinIdChange}/>
+            <input placeholder="coin id" type="text" value={this.state.newCoinId} onChange={this.handleNewCoinIdChange}/>
             <input  placeholder="amount" type="text" value={this.state.newCoinAmount} onChange={this.handleNewCoinAmountChange}/>
             <button>Add Coin</button>
         </form>
+        <div className="total-value">{this.state.totalValue}</div>
         </div>
         <div className="react-table-outer">
             <ReactTable
                 data={this.state.watchList}
                 columns={columns}
+                className={"striped, highlight"}
+                defaultPageSize= {10}
             />
         </div>
       </div>

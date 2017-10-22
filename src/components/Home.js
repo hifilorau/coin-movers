@@ -43,7 +43,7 @@ class Home extends Component {
        this.setState({ bigMovers:hourlyChange })
      })
 
-    //  fire.database().ref('coins').remove();
+     fire.database().ref('coins').remove();
 
       getPriceData().then(
         response => {

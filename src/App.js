@@ -4,7 +4,7 @@ import Header from './components/Header';
 
 // this component will be rendered by our <___Router>
 const App = () => (
-  <div>
+  <div className="app-outer-wrapper">
     <Header />
     <Main />
   </div>
