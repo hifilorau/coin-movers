@@ -1,0 +1,9 @@
+.bitcoin-price {
+    display: inline-block;
+}
+
+.bitcoin-price-wrapper {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
