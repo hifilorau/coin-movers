@@ -126,7 +126,7 @@ class BitTools extends Component {
             <ReactTable
                 data={this.state.watchList}
                 columns={columns}
-                className={"striped, highlight"}
+                className={"striped, highlight, react-table"}
                 defaultPageSize= {10}
             />
         </div>
