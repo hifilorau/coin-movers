@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class CoinBox extends React.Component {
+class CoinBox extends React.Component {
   render() {
     return (
     <li key={ this.props.data.id } className="movers">
@@ -21,3 +21,5 @@ export default class CoinBox extends React.Component {
   )
   }
 }
+
+export default (CoinBox);
