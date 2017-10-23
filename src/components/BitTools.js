@@ -54,9 +54,9 @@ class BitTools extends Component {
                  item.price_usd = data.price_usd
                  item.name = data.name
                  item.valueInUSD = item.amount * item.price_usd
-                 item.percent_change_1h = data.percent_change_1h
-                 item.percent_change_24h = data.percent_change_24h
-                 item.percent_change_7d = data.percent_change_7d
+                 item.percent_change_1h = parseInt(data.percent_change_1h).toFixed(2)
+                 item.percent_change_24h = parseInt(data.percent_change_24h).toFixed(2)
+                 item.percent_change_7d = parseInt(data.percent_change_7d).toFixed(2)
                  totalValue = totalValue + item.valueInUSD
                  totalValueFixed = totalValue.toFixed(2)
                  this.setState( {totalValue:totalValueFixed} );
