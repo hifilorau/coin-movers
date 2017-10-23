@@ -54,6 +54,9 @@ class BitTools extends Component {
                  item.price_usd = data.price_usd
                  item.name = data.name
                  item.valueInUSD = item.amount * item.price_usd
+                 item.percent_change_1h = data.percent_change_1h
+                 item.percent_change_24h = data.percent_change_24h
+                 item.percent_change_7d = data.percent_change_7d
                  totalValue = totalValue + item.valueInUSD
                  totalValueFixed = totalValue.toFixed(2)
                  this.setState( {totalValue:totalValueFixed} );
@@ -103,6 +106,15 @@ class BitTools extends Component {
         Header: 'Price (usd)',
         accessor: 'price_usd'
     }, {
+      Header: '1 Hr %',
+      accessor: 'percent_change_1h',
+    },{
+      Header: '24 hr %',
+      accessor: 'percent_change_24h'
+    }, {
+        Header: '7 Day %',
+        accessor: 'percent_change_7d'
+    },{
         Header: 'Amount Held',
         accessor: 'amount'
     }, {
