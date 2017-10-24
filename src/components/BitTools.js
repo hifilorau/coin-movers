@@ -12,16 +12,20 @@ class BitTools extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        showModal: false,
         newCoinId: "",
         newCoinAmount: "",
         newCoin: {},
         watchList: [],
-        totalValue: ""
+        totalValue: "",
+        newCoinPurchasePrice: ""
     };
     this.watchList = [];
     this.newCoin = {};
     this.handleNewCoinIdChange = this.handleNewCoinIdChange.bind(this);
     this.handleNewCoinAmountChange = this.handleNewCoinAmountChange.bind(this);
+    this.handleNewCoinPurchasePrice = this.handleNewCoinPurchasePrice.bind(this);
+    // this.handleNewCoinAmountChange = this.handleNewCoinAmountChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -51,16 +55,17 @@ class BitTools extends Component {
                return;
              }
                response.json().then(data => {
-                 data = data[0]
-                 item.price_usd = data.price_usd
-                 item.name = data.name
-                 item.valueInUSD = item.amount * item.price_usd
-                 item.percent_change_1h = data.percent_change_1h + '%'
-                 item.percent_change_24h = data.percent_change_24h + '%'
-                 item.percent_change_7d = data.percent_change_7d + '%'
-                 item.link = 'https://coinmarketcap.com/currencies/' + data.id
-                 totalValue = totalValue + item.valueInUSD
-                 totalValueFixed = totalValue.toFixed(2)
+                 data = data[0];
+                 item.price_usd = data.price_usd;
+                 item.name = data.name;
+                 item.valueInUSD = item.amount * item.price_usd;
+                 item.valueFixed = item.valueInUSD.toFixed(2);
+                 item.percent_change_1h = Number(data.percent_change_1h) + '%';
+                 item.percent_change_24h = Number(data.percent_change_24h) + '%';
+                 item.percent_change_7d = data.percent_change_7d + '%';
+                 item.link = 'https://coinmarketcap.com/currencies/' + data.id;
+                 totalValue = totalValue + item.valueInUSD;
+                 totalValueFixed = totalValue.toFixed(2);
                  this.setState( {totalValue:totalValueFixed} );
                return;
              });
@@ -86,10 +91,15 @@ class BitTools extends Component {
    this.setState({newCoinAmount: event.target.value});
   }
 
+  handleNewCoinPurchasePrice(event) {
+   this.setState({newCoinPurchasePrice: event.target.value});
+  }
+
  handleSubmit(event) {
    event.preventDefault();
    this.newCoin.id = this.state.newCoinId;
    this.newCoin.amount = this.state.newCoinAmount;
+   this.newCoin.purchasePrice = this.state.newCoinPurchasePrice;
    fire.database().ref('watchList').push( this.newCoin );
    let watchListRef = fire.database().ref('watchList').limitToLast(100);
    watchListRef.on('value', snapshot => {
@@ -99,13 +109,40 @@ class BitTools extends Component {
    })
   }
 
+  showModal() {
+    this.setState( { showModal: true } );
+    console.log(this.state.showModal);
+  }
+
+  hideModal() {
+    this.setState( { showModal: false } );
+    console.log(this.state.showModal);
+  }
+
+  createModal() {
+    return (
+      <div className="modal-outer">
+        <div className="modal-inner">
+          <h2 className="modal-title">Coin Details</h2>
+          <div className="close-modal" onClick={ ()=> this.hideModal() }>X</div>
+          <form onSubmit={this.handleSubmit}>
+            <input placeholder="Coinmarket Cap ID" type="text" value={this.state.newCoinId} onChange={this.handleNewCoinIdChange}/>
+            <input  placeholder="Amount Owned" type="text" value={this.state.newCoinAmount} onChange={this.handleNewCoinAmountChange}/>
+            <input  placeholder="Purchase Price" type="text" value={this.state.newCoinPurchasePrice} onChange={this.handleNewCoinPurchasePrice}/>
+            <button className="modal-button">Add Coin</button>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
+
   render() {
-    console.log(this.state.watchList);
     const columns = [{
         Header: 'Coin Name',
         accessor: 'name'
     }, {
-        Header: 'Price (usd)',
+        Header: 'Current Price',
         accessor: 'price_usd'
     }, {
       Header: '1 Hr %',
@@ -121,7 +158,7 @@ class BitTools extends Component {
         accessor: 'amount'
     }, {
         Header: 'Total $',
-        accessor: 'valueInUSD'
+        accessor: 'valueFixed'
     }, {
         Header: 'Link',
         accessor: 'link',
@@ -131,27 +168,25 @@ class BitTools extends Component {
      </a>
         </div>
         )
-    }
-
-    ];
+    }];
     return (
       <div className="watch-list-outer">
-        <h1>WatchList</h1>
-        <div className="add-container">
-            <form onSubmit={this.handleSubmit}>
-            <input placeholder="coin id" type="text" value={this.state.newCoinId} onChange={this.handleNewCoinIdChange}/>
-            <input  placeholder="amount" type="text" value={this.state.newCoinAmount} onChange={this.handleNewCoinAmountChange}/>
-            <button>Add Coin</button>
-        </form>
-        <div className="total-value">{this.state.totalValue}</div>
-        </div>
-        <div className="react-table-outer">
-            <ReactTable
-                data={this.state.watchList}
-                columns={columns}
-                className={"-striped, -highlight, react-table"}
-                defaultPageSize= {10}
-            />
+        { this.state.showModal === true && this.createModal() }
+        <div className="page-content">
+          <div className="add-container">
+            <h2 className="bt-title">WatchList</h2>
+
+            <h2 className="total-value">Trading Value: ${this.state.totalValue}</h2>
+            <button className="add-coin" onClick={ () => this.showModal() }>+ COIN</button>
+          </div>
+          <div className="react-table-outer">
+              <ReactTable
+                  data={this.state.watchList}
+                  columns={columns}
+                  className={"-striped, -highlight, react-table"}
+                  defaultPageSize= {10}
+              />
+          </div>
         </div>
       </div>
     );
