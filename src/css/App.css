@@ -62,10 +62,6 @@
     color:white;
 }
 
-.movers:hover {
-    background-color: #45A485;
-}
-
 .movers-link {
     display: inline-block;
     color: white;
@@ -84,8 +80,14 @@
   height: 150px;
   width: 150px;
   text-align: center;
+  transition: 1s;
+  background-color: #45A485;
   /*line-height: 125px;*/
   /*margin-top: 2em;*/
+}
+
+.center-content:hover {
+    background-color: #E4873D;
 }
 
 .center-content a {

@@ -6,6 +6,7 @@ import '../css/bitTools.css';
 import { getCoinData } from '../api-calls';
 import fire from '../fire';
 import ReactTable from 'react-table';
+import { Link } from 'react-router-dom';
 
 class BitTools extends Component {
   constructor(props) {
@@ -57,6 +58,7 @@ class BitTools extends Component {
                  item.percent_change_1h = data.percent_change_1h + '%'
                  item.percent_change_24h = data.percent_change_24h + '%'
                  item.percent_change_7d = data.percent_change_7d + '%'
+                 item.link = 'https://coinmarketcap.com/currencies/' + data.id
                  totalValue = totalValue + item.valueInUSD
                  totalValueFixed = totalValue.toFixed(2)
                  this.setState( {totalValue:totalValueFixed} );
@@ -120,6 +122,15 @@ class BitTools extends Component {
     }, {
         Header: 'Total $',
         accessor: 'valueInUSD'
+    }, {
+        Header: 'Link',
+        accessor: 'link',
+        Cell: row => (<div>
+        <a target="_blank" href={row.value}>
+         Charts
+     </a>
+        </div>
+        )
     }
 
     ];
@@ -138,7 +149,7 @@ class BitTools extends Component {
             <ReactTable
                 data={this.state.watchList}
                 columns={columns}
-                className={"striped, highlight, react-table"}
+                className={"-striped, -highlight, react-table"}
                 defaultPageSize= {10}
             />
         </div>
