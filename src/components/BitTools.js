@@ -55,17 +55,17 @@ class BitTools extends Component {
                return;
              }
                response.json().then(data => {
-                 data = data[0];
-                 item.price_usd = data.price_usd;
-                 item.name = data.name;
-                 item.valueInUSD = item.amount * item.price_usd;
-                 item.valueFixed = item.valueInUSD.toFixed(2);
-                 item.percent_change_1h = Number(data.percent_change_1h) + '%';
-                 item.percent_change_24h = Number(data.percent_change_24h) + '%';
-                 item.percent_change_7d = data.percent_change_7d + '%';
-                 item.link = 'https://coinmarketcap.com/currencies/' + data.id;
-                 totalValue = totalValue + item.valueInUSD;
-                 totalValueFixed = totalValue.toFixed(2);
+                 data = data[0]
+                 item.price_usd = data.price_usd
+                 item.name = data.name
+                 item.valueInUSD = item.amount * item.price_usd
+                 item.valueFixed = item.valueInUSD.toFixed(2)
+                 item.percent_change_1h = Number(data.percent_change_1h)
+                 item.percent_change_24h = Number(data.percent_change_24h)
+                 item.percent_change_7d = data.percent_change_7d
+                 item.link = 'https://coinmarketcap.com/currencies/' + data.id
+                 totalValue = totalValue + item.valueInUSD
+                 totalValueFixed = totalValue.toFixed(2)
                  this.setState( {totalValue:totalValueFixed} );
                return;
              });
@@ -147,25 +147,41 @@ class BitTools extends Component {
     }, {
       Header: '1 Hr %',
       accessor: 'percent_change_1h',
+      Cell: row => (<div>
+      {row.value}%
+      </div>
+      )
     },{
       Header: '24 hr %',
-      accessor: 'percent_change_24h'
+      accessor: 'percent_change_24h',
+      Cell: row => (<div>
+      {row.value}%
+      </div>
+      )
     }, {
         Header: '7 Day %',
-        accessor: 'percent_change_7d'
+        accessor: 'percent_change_7d',
+        Cell: row => (<div>
+        {row.value}%
+        </div>
+        )
     },{
         Header: 'Amount Held',
         accessor: 'amount'
     }, {
         Header: 'Total $',
-        accessor: 'valueFixed'
+        accessor: 'valueFixed',
+        Cell: row => (<div>
+        ${row.value}
+        </div>
+        )
     }, {
         Header: 'Link',
         accessor: 'link',
         Cell: row => (<div>
         <a target="_blank" href={row.value}>
          Charts
-     </a>
+       </a>
         </div>
         )
     }];
@@ -185,6 +201,26 @@ class BitTools extends Component {
                   columns={columns}
                   className={"-striped, -highlight, react-table"}
                   defaultPageSize= {10}
+                  defaultSortMethod={(a, b) => {
+                      // force null and undefined to the bottom
+                      a = (a === null || a === undefined) ? -Infinity : a
+                      b = (b === null || b === undefined) ? -Infinity : b
+                      // force any string values to lowercase
+                      // a = a === 'string' ? a.toLowerCase() : a
+                      // b = b === 'string' ? b.toLowerCase() : b
+                      a = Number(a)
+                      b = Number(b)
+                      // Return either 1 or -1 to indicate a sort priority
+                      if (a > b) {
+                        return 1
+                      }
+                      if (a < b) {
+                        return -1
+                      }
+                      // returning 0, undefined or any falsey value will use subsequent sorts or the index as a tiebreaker
+                      return 0
+                    }
+                  }
               />
           </div>
         </div>
