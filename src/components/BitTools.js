@@ -223,6 +223,13 @@ class BitTools extends Component {
                   }
               />
           </div>
+          <div className="exchance-links-outer section">
+            <h2>My Exchanges</h2>
+            <ul className="exchanges">
+              <li><a target="_blank" className="exchange-link" href="https://cryptopia.co.nz">Cryptopia</a></li>
+              <li><a target="_blank" className="exchange-link" href="https://bittrex.com">Bittrex</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     );

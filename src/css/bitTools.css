@@ -3,8 +3,8 @@
 }
 
 .react-table-outer {
-    max-width: 85%;
-    margin: 0 auto;
+    /*max-width: 85%;
+    margin: 0 auto;*/
 }
 
 .watch-list-outer {
@@ -14,11 +14,12 @@
 .ReactTable {
     background: #485B86;
     color: white;
+    border-color: white;
 }
 
 .add-container {
-    max-width: 85%;
-    margin: 0 auto;
+    /*max-width: 85%;
+    margin: 0 auto;*/
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -43,4 +44,12 @@
 
 .-even {
   background-color: #9EA9C1;
+}
+
+.section {
+  margin-top: 1em;
+}
+
+.exchange-link {
+  font-size: 1.3em;
 }

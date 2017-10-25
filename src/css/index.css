@@ -18,6 +18,10 @@ input {
     height: 45px;
 }
 
+ul {
+  list-style: none;
+}
+
 button {
   border-radius: 0;
   padding: 1em;
@@ -44,5 +48,7 @@ button:focus {
 }
 
 .page-content {
+  margin: 0 auto;
   margin-top: 3em;
+  max-width: 85%;
 }
