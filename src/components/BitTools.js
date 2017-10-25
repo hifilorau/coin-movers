@@ -56,6 +56,7 @@ class BitTools extends Component {
              }
                response.json().then(data => {
                  data = data[0]
+                 console.log(data)
                  item.price_usd = data.price_usd
                  item.name = data.name
                  item.valueInUSD = item.amount * item.price_usd
@@ -228,6 +229,7 @@ class BitTools extends Component {
             <ul className="exchanges">
               <li><a target="_blank" className="exchange-link" href="https://cryptopia.co.nz">Cryptopia</a></li>
               <li><a target="_blank" className="exchange-link" href="https://bittrex.com">Bittrex</a></li>
+              <li><a target="_blank" className="exchange-link" href="https://hitbtc.com/exchange">HitBTC</a></li>
             </ul>
           </div>
         </div>
