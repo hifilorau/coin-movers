@@ -3,16 +3,53 @@
 }
 
 .react-table-outer {
-    max-width: 85%;
-    margin: 0 auto;
+    /*max-width: 85%;
+    margin: 0 auto;*/
+}
+
+.watch-list-outer {
+  min-height: 100vh;
 }
 
 .ReactTable {
     background: #485B86;
     color: white;
+    border-color: white;
 }
 
 .add-container {
-    max-width: 85%;
-    margin: 0 auto;
+    /*max-width: 85%;
+    margin: 0 auto;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: .5em;
+}
+
+.total-value, .bt-title {
+  position: relative;
+  top: 10px;
+  /*font-size: 1.3em;*/
+}
+
+.add-coin {
+  font-weight: 700;
+}
+
+.-header {
+  background: white;
+  color: #333;
+  font-weight: 700;
+}
+
+.-even {
+  background-color: #9EA9C1;
+}
+
+.section {
+  margin-top: 1em;
+}
+
+.exchange-link {
+  font-size: 1.3em;
 }

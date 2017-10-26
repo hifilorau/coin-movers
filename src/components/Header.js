@@ -44,7 +44,7 @@ class Header extends Component {
         </nav>
          <div className="bitcoin-price-wrapper">
              <div className="coin-label"><img src="https://bitcoin.org/img/icons/opengraph.png " /></div>
-             <div className="bitcoin-price">{ this.state.bitcoin.price_usd }</div>
+             <div className="bitcoin-price">${ this.state.bitcoin.price_usd }</div>
          </div>
       </header>
     )

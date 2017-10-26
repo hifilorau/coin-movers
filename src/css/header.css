@@ -1,9 +1,17 @@
 .bitcoin-price {
     display: inline-block;
+    font-weight: 700;
+    font-size: 1.3em;
+    position: relative;
+    top: -3px;
 }
 
 .bitcoin-price-wrapper {
     position: absolute;
     top: 5px;
     right: 5px;
+}
+
+.coin-label {
+  margin-right: .5em;
 }
