@@ -40,7 +40,7 @@ class BitTools extends Component {
      })
   }
 
-  checkWatchListForCoin = (coinID) => {
+  checkWatchListForCoin = coinID => {
     console.log(coinID);
      for (var value of this.state.watchList) {
          if (coinID === value.id) {
@@ -48,6 +48,14 @@ class BitTools extends Component {
          }
      }
   }
+
+  updateCoin = (coinKey, key, value)  => {
+      let updateRef = fire.database().ref('watchList').child(coinKey);
+      updateRef.update({
+          key: value
+      });
+  }
+
 
    snapshotToArray = snapshot => {
      let returnArr = [];
