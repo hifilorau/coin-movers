@@ -35,6 +35,15 @@ class BitTools extends Component {
      })
   }
 
+  checkWatchListForCoin = (coinID) => {
+    console.log(coinID);
+     for (var value of this.state.watchList) {
+         if (coinID === value.id) {
+             console.log('bink');
+         }
+     }
+  }
+
    snapshotToArray = snapshot => {
      let returnArr = [];
      let totalValue = 0;
@@ -90,6 +99,7 @@ class BitTools extends Component {
    event.preventDefault();
    this.newCoin.id = this.state.newCoinId;
    this.newCoin.amount = this.state.newCoinAmount;
+   this.checkWatchListForCoin(this.newCoin.id);
    fire.database().ref('watchList').push( this.newCoin );
    let watchListRef = fire.database().ref('watchList').limitToLast(100);
    watchListRef.on('value', snapshot => {
@@ -100,7 +110,6 @@ class BitTools extends Component {
   }
 
   render() {
-    console.log(this.state.watchList);
     const columns = [{
         Header: 'Coin Name',
         accessor: 'name'
