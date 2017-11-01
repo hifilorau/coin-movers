@@ -3,35 +3,13 @@ import { Link } from 'react-router-dom'
 import '../css/App.css';
 import '../css/header.css';
 
-import { getCoinData } from '../api-calls';
-
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        bitcoin: {}
+        // bitcoin: {}
     }; // <- set up react state
   }
-  componentWillMount() {
-      getCoinData('bitcoin').then(
-        response => {
-          if (response.status !== 200) {
-            console.log('Looks like there was a problem. Status Code: ' +
-              response.status);
-            return;
-          }
-            response.json().then(data => {
-              // fire.database().ref('coins').push( data );
-              this.setState({ bitcoin:data[0] });
-            return;
-          });
-        }
-      )
-      .catch(function(err) {
-        console.log('Fetch Error :-S', err);
-      });
-  }
-
 
   render() {
     return (
@@ -44,7 +22,7 @@ class Header extends Component {
         </nav>
          <div className="bitcoin-price-wrapper">
              <div className="coin-label"><img src="https://bitcoin.org/img/icons/opengraph.png " /></div>
-             <div className="bitcoin-price">${ this.state.bitcoin.price_usd }</div>
+             <div className="bitcoin-price">${ this.props.bitcoin.price_usd }</div>
          </div>
       </header>
     )

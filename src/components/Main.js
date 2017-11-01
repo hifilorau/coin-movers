@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './Home'
 import BitTools from './BitTools'
@@ -8,13 +8,23 @@ import BitTools from './BitTools'
 // and /schedule routes will match any pathname that starts
 // with /roster or /schedule. The / route will only match
 // when the pathname is exactly the string "/"
-const Main = () => (
-  <main>
-    <Switch>
-      <Route exact path='/' component={Home}/>
-       <Route exact path='/bittools' component={BitTools}/>
-    </Switch>
-  </main>
-)
+class Main extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+          bitcoin: {}
+      }; // <- set up react state
+    }
 
+    render() {
+        return (
+          <main>
+            <Switch>
+              <Route exact path='/' component={Home}/>
+               <Route exact path='/bittools' render={(props) => (<BitTools bitcoin={this.props.bitcoin}/>)} />
+            </Switch>
+          </main>
+        )
+    }
+}
 export default Main

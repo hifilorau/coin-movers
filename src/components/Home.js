@@ -23,7 +23,6 @@ class Home extends Component {
       messages: [],
       coins:{},
       bigMovers: [],
-      bitcoin: {},
       showBigLosers: false,
       newData: [],
       favorites: []

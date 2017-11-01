@@ -52,3 +52,7 @@ button:focus {
   margin-top: 3em;
   max-width: 85%;
 }
+
+.right-align {
+    text-align: right;
+}

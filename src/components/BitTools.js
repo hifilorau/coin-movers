@@ -6,7 +6,6 @@ import '../css/bitTools.css';
 import { getCoinData } from '../api-calls';
 import fire from '../fire';
 import ReactTable from 'react-table';
-import { Link } from 'react-router-dom';
 
 class BitTools extends Component {
   constructor(props) {
@@ -56,6 +55,12 @@ class BitTools extends Component {
       });
   }
 
+  convertUSDtoBTC = usd => {
+      let btcPrice = usd / this.props.bitcoin.price_usd;
+      return btcPrice;
+  }
+
+
 
    snapshotToArray = snapshot => {
      let returnArr = [];
@@ -81,6 +86,7 @@ class BitTools extends Component {
                  item.percent_change_1h = Number(data.percent_change_1h)
                  item.percent_change_24h = Number(data.percent_change_24h)
                  item.percent_change_7d = data.percent_change_7d
+                 item.price_btc = this.convertUSDtoBTC(item.price_usd)
                  item.link = 'https://coinmarketcap.com/currencies/' + data.id
                  totalValue = totalValue + item.valueInUSD
                  totalValueFixed = totalValue.toFixed(2)
@@ -164,11 +170,29 @@ class BitTools extends Component {
         Header: 'Coin Name',
         accessor: 'name'
     }, {
-        Header: 'Current Price',
-        accessor: 'price_usd'
+        Header: 'Price USD',
+        accessor: 'price_usd',
+        className: 'right-align',
+        width: 90,
+        Cell: row => (<div>
+        ${Number(row.value).toFixed(2)}
+        </div>
+        )
+    },
+    {
+        Header: 'Price BTC',
+        accessor: 'price_btc',
+        className: 'right-align',
+        width: 100,
+        Cell: row => (<div>
+        {Number(row.value).toFixed(6)}
+        </div>
+        )
     }, {
       Header: '1 Hr %',
       accessor: 'percent_change_1h',
+      width: 80,
+      className: 'right-align',
       Cell: row => (<div>
       {row.value}%
       </div>
@@ -176,6 +200,8 @@ class BitTools extends Component {
     },{
       Header: '24 hr %',
       accessor: 'percent_change_24h',
+      className: 'right-align',
+      width: 80,
       Cell: row => (<div>
       {row.value}%
       </div>
@@ -183,16 +209,21 @@ class BitTools extends Component {
     }, {
         Header: '7 Day %',
         accessor: 'percent_change_7d',
+        className: 'right-align',
+        width: 80,
         Cell: row => (<div>
         {row.value}%
         </div>
         )
     },{
-        Header: 'Amount Held',
-        accessor: 'amount'
+        Header: 'Count',
+        accessor: 'amount',
+        width: 80,
+        className: 'right-align'
     }, {
         Header: 'Total $',
         accessor: 'valueFixed',
+        className: 'right-align',
         Cell: row => (<div>
         ${row.value}
         </div>
@@ -200,6 +231,7 @@ class BitTools extends Component {
     }, {
         Header: 'Link',
         accessor: 'link',
+        width: 60,
         Cell: row => (<div>
         <a target="_blank" href={row.value}>
          Charts
@@ -243,6 +275,7 @@ class BitTools extends Component {
                       return 0
                     }
                   }
+                 
               />
           </div>
           <div className="exchance-links-outer section">
