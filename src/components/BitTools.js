@@ -14,7 +14,10 @@ class BitTools extends Component {
         showModal: false,
         newCoinId: "",
         newCoinAmount: "",
+        soldCoinId: "",
+        soldCoinAmount: "",
         newCoin: {},
+        soldCoin: {},
         watchList: [],
         totalValue: "",
         newCoinPurchasePrice: "",
@@ -23,9 +26,10 @@ class BitTools extends Component {
     this.watchList = [];
     this.newCoin = {};
     this.handleNewCoinIdChange = this.handleNewCoinIdChange.bind(this);
+    this.handleSoldCoinIdChange = this.handleSoldCoinIdChange.bind(this);
     this.handleNewCoinAmountChange = this.handleNewCoinAmountChange.bind(this);
+    this.handleSoldCoinIdChange = this.handleSoldCoinIdChange.bind(this);
     this.handleNewCoinPurchasePrice = this.handleNewCoinPurchasePrice.bind(this);
-    // this.handleNewCoinAmountChange = this.handleNewCoinAmountChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -110,8 +114,16 @@ class BitTools extends Component {
    this.setState({newCoinId: event.target.value});
   }
 
+  handleSoldCoinIdChange(event) {
+   this.setState({soldCoinId: event.target.value});
+  }
+
   handleNewCoinAmountChange(event) {
    this.setState({newCoinAmount: event.target.value});
+  }
+
+  handleSoldCoinAmountChange(event) {
+   this.setState({soldCoinAmount: event.target.value});
   }
 
   handleNewCoinPurchasePrice(event) {
@@ -156,7 +168,9 @@ class BitTools extends Component {
           <form onSubmit={this.handleSubmit}>
             <input placeholder="Coinmarket Cap ID" type="text" value={this.state.newCoinId} onChange={this.handleNewCoinIdChange}/>
             <input  placeholder="Amount Owned" type="text" value={this.state.newCoinAmount} onChange={this.handleNewCoinAmountChange}/>
-            <input  placeholder="Purchase Price" type="text" value={this.state.newCoinPurchasePrice} onChange={this.handleNewCoinPurchasePrice}/>
+            <input placeholder="Sold Coin ID" type="text" value={this.state.soldCoinId} onChange={this.handleSoldCoinIdChange}/>
+            <input  placeholder="Amount Spent" type="text" value={this.state.soldCoinAmount} onChange={this.handleSoldCoinAmountChange}/>
+            <input  placeholder="Purchase Price USD" type="text" value={this.state.newCoinPurchasePrice} onChange={this.handleNewCoinPurchasePrice}/>
             <button className="modal-button">Add Coin</button>
           </form>
         </div>
@@ -275,7 +289,7 @@ class BitTools extends Component {
                       return 0
                     }
                   }
-                 
+
               />
           </div>
           <div className="exchance-links-outer section">
