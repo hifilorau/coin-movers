@@ -21,7 +21,7 @@ class Header extends Component {
           </ul>
         </nav>
          <div className="bitcoin-price-wrapper">
-             <div className="coin-label"><img src="https://bitcoin.org/img/icons/opengraph.png " /></div>
+             <div className="coin-label"><img alt='bitcoin icon' src="https://bitcoin.org/img/icons/opengraph.png " /></div>
              <div className="bitcoin-price">${ this.props.bitcoin.price_usd }</div>
          </div>
       </header>

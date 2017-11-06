@@ -25,8 +25,10 @@ class BitTools extends Component {
     };
     this.watchList = [];
     this.newCoin = {};
+    this.soldCoin = {};
     this.handleNewCoinIdChange = this.handleNewCoinIdChange.bind(this);
     this.handleSoldCoinIdChange = this.handleSoldCoinIdChange.bind(this);
+    this.handleSoldCoinAmountChange = this.handleSoldCoinAmountChange.bind(this);
     this.handleNewCoinAmountChange = this.handleNewCoinAmountChange.bind(this);
     this.handleSoldCoinIdChange = this.handleSoldCoinIdChange.bind(this);
     this.handleNewCoinPurchasePrice = this.handleNewCoinPurchasePrice.bind(this);
@@ -43,21 +45,48 @@ class BitTools extends Component {
      })
   }
 
-  checkWatchListForCoin = coinID => {
-    console.log(coinID);
-     for (var value of this.state.watchList) {
-         if (coinID === value.id) {
-             this.setState( {coinmatch:true} )
-         }
-     }
-  }
 
-  updateCoin = (coinKey, key, value)  => {
-      let updateRef = fire.database().ref('watchList').child(coinKey);
-      updateRef.update({
-          key: value
-      });
-  }
+  updateCoin = (newCoin, oldCoin)  => {
+      console.log(newCoin);
+      console.log(oldCoin);
+      for (var value of this.state.watchList) {
+          if (newCoin.id === value.id) {
+              this.setState( {coinmatch:true}, () => {
+                if (this.state.coinmatch === true) {
+                  console.log(this.state.coinmatch);
+                  
+                } else {
+                    fire.database().ref('watchList').push( this.newCoin );
+                }
+                let watchListRef = fire.database().ref('watchList').limitToLast(100);
+                watchListRef.on('value', snapshot => {
+                  /* Update React state when message is added at Firebase Database */
+                  let newData = this.snapshotToArray(snapshot);
+                  this.setState( {watchList:newData} );
+                })
+
+              })
+          }
+      }
+   }
+      // console.log(this.state.coinmatch);
+      // if (this.state.coinmatch === true) {
+      //   //  this.updateCoin(this.newCoin, this.soldCoin);
+      // } else {
+      //     fire.database().ref('watchList').push( this.newCoin );
+      // }
+      // let watchListRef = fire.database().ref('watchList').limitToLast(100);
+      // watchListRef.on('value', snapshot => {
+      //   /* Update React state when message is added at Firebase Database */
+      //   let newData = this.snapshotToArray(snapshot);
+      //   this.setState( {watchList:newData} );
+      // })
+      // let updateRef = fire.database().ref('watchList').child(coin);
+      // console.log(updateRef);
+      // updateRef.update({
+      //     key: value
+      // });
+  // }
 
   convertUSDtoBTC = usd => {
       let btcPrice = usd / this.props.bitcoin.price_usd;
@@ -135,18 +164,11 @@ class BitTools extends Component {
    this.newCoin.id = this.state.newCoinId;
    this.newCoin.amount = this.state.newCoinAmount;
    this.newCoin.purchasePrice = this.state.newCoinPurchasePrice;
-   this.checkWatchListForCoin(this.newCoin.id);
-   if (this.state.coinmatch === true) {
-       /*   find                               */
-   } else {
-       fire.database().ref('watchList').push( this.newCoin );
-   }
-   let watchListRef = fire.database().ref('watchList').limitToLast(100);
-   watchListRef.on('value', snapshot => {
-     /* Update React state when message is added at Firebase Database */
-     let newData = this.snapshotToArray(snapshot);
-     this.setState( {watchList:newData} );
-   })
+   this.soldCoin.id =  this.state.soldCoinId;
+   this.soldCoin.amount = this.state.soldCoinAmount;
+
+   this.updateCoin(this.newCoin, this.soldCoin);
+
   }
 
   showModal() {
@@ -297,7 +319,7 @@ class BitTools extends Component {
             <ul className="exchanges">
               <li><a target="_blank" className="exchange-link" href="https://cryptopia.co.nz">Cryptopia</a></li>
               <li><a target="_blank" className="exchange-link" href="https://bittrex.com">Bittrex</a></li>
-              <li><a target="_blank" className="exchange-link" href="https://hitbtc.com/exchange">HitBTC</a></li>
+              <li><a target="_blank" className="exchange-link" href="https://hitbtc.com/exchange">HitBTCse </a></li>
             </ul>
           </div>
         </div>
