@@ -13,15 +13,19 @@ class BitTools extends Component {
     this.state = {
         showModal: false,
         newCoinId: "",
+        masterArray: [],
         newCoinAmount: "",
         soldCoinId: "",
         soldCoinAmount: "",
         newCoin: {},
         soldCoin: {},
         watchList: [],
+        ownedList: [],
+        activeArray: [],
         totalValue: "",
         newCoinPurchasePrice: "",
-        coinmatch: false
+        coinmatch: false,
+        activeFilter: "owned",
     };
     this.watchList = [];
     this.newCoin = {};
@@ -33,14 +37,11 @@ class BitTools extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillMount() {
-    //   fire.database().ref('watchList').remove();
-     let watchListRef = fire.database().ref('watchList').limitToLast(100);
-     watchListRef.on('value', snapshot => {
-       /* Update React state when message is added at Firebase Database */
-      let newData = this.snapshotToArray(snapshot);
-    //    this.setState( {watchList:newData} );
-     })
+  componentDidMount() {
+    this.getData()
+    this.dataInterval = setInterval(this.getData, 160000);
+    //  this.setState( {activeArray: this.state.watchList} )
+    this.filterData(this.state.activeFilter);
   }
 
   checkWatchListForCoin = coinID => {
@@ -63,8 +64,6 @@ class BitTools extends Component {
       let btcPrice = usd / this.props.bitcoin.price_usd;
       return btcPrice;
   }
-
-
 
    snapshotToArray = snapshot => {
      let returnArr = [];
@@ -105,8 +104,10 @@ class BitTools extends Component {
          returnArr.push(item);
      });
      console.log(returnArr);
-      this.setState( {watchList:returnArr, totalValue: totalValue} );
-      console.log(this.state.watchList);
+      this.setState( {activeArray:returnArr, totalValue: totalValue, masterArray:returnArr}, () => {
+          return console.log(this.state.activeArray);
+      } );
+      console.log(this.state.activeArray);
      return returnArr;
    };
 
@@ -131,6 +132,7 @@ class BitTools extends Component {
   }
 
  handleSubmit(event) {
+   let newData = [];
    event.preventDefault();
    this.newCoin.id = this.state.newCoinId;
    this.newCoin.amount = this.state.newCoinAmount;
@@ -142,11 +144,9 @@ class BitTools extends Component {
        fire.database().ref('watchList').push( this.newCoin );
    }
    let watchListRef = fire.database().ref('watchList').limitToLast(100);
-   watchListRef.on('value', snapshot => {
-     /* Update React state when message is added at Firebase Database */
-     let newData = this.snapshotToArray(snapshot);
-     this.setState( {watchList:newData} );
-   })
+   this.getData();
+   this.setState( {watchList:newData} );
+   this.hideModal();
   }
 
   showModal() {
@@ -176,6 +176,35 @@ class BitTools extends Component {
         </div>
       </div>
     )
+  }
+
+  componentWillUnmount() {
+      clearInterval(this.dataInterval)
+  }
+
+  filterData = (activeFilter) => {
+     console.log(this.state.masterArray)
+     let newArray = this.state.masterArray.filter((data) => {
+        if (activeFilter === 'owned' ) {
+         this.setState({activeFilter})
+         return data.amount > 0
+        }
+        if (activeFilter === 'watch' ) {
+        this.setState({activeFilter})
+         return data.amount == 0
+        }
+    })
+      console.log(newArray)
+      this.setState( {activeArray: newArray} )
+  }
+
+  getData = () => {
+      let watchListRef = fire.database().ref('watchList').limitToLast(100);
+      watchListRef.on('value', snapshot => {
+        /* Update React state when message is added at Firebase Database */
+       let newData = this.snapshotToArray(snapshot);
+       this.filterData(this.state.activeFilter);
+      })
   }
 
 
@@ -260,12 +289,19 @@ class BitTools extends Component {
           <div className="add-container">
             <h2 className="bt-title">WatchList</h2>
 
-            <h2 className="total-value">Trading Value: ${this.state.totalValue}</h2>
+            <h2 className="total-value">
+                Trading Value: ${this.state.totalValue}
+                <span className="value-btc"> btc {(this.state.totalValue/this.props.bitcoin.price_usd).toFixed(3)} </span>
+            </h2>
             <button className="add-coin" onClick={ () => this.showModal() }>+ COIN</button>
+          </div>
+          <div class="filter">
+              <button onClick={ () => this.filterData('owned') }>Owned</button>
+              <button onClick={ () => this.filterData('watch') }>Watch</button>
           </div>
           <div className="react-table-outer">
               <ReactTable
-                  data={this.state.watchList}
+                  data={this.state.activeArray}
                   columns={columns}
                   className={"-striped, -highlight, react-table"}
                   defaultPageSize= {10}
