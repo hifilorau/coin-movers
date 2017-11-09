@@ -30,6 +30,7 @@ button {
   border: none;
   margin-right: 1em;
   font-size: .9em;
+  cursor: pointer;
 }
 
 input:focus,

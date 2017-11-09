@@ -12,7 +12,16 @@ class App extends Component {
       }; // <- set up react state
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        this.pullBitcoinData();
+        this.bitcoinInterval = setInterval(this.pullBitcoinData, 60000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.bitcoinInterval)
+    }
+
+    pullBitcoinData = () => {
         getCoinData('bitcoin').then(
           response => {
             if (response.status !== 200) {
@@ -21,7 +30,6 @@ class App extends Component {
               return;
             }
               response.json().then(data => {
-                // fire.database().ref('coins').push( data );
                 this.setState({ bitcoin:data[0] });
               return;
             });
