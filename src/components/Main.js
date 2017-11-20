@@ -20,7 +20,7 @@ class Main extends Component {
         return (
           <main>
             <Switch>
-              <Route exact path='/' component={Home}/>
+               <Route exact path='/' component={Home}/>
                <Route exact path='/bittools' render={(props) => (<BitTools bitcoin={this.props.bitcoin}/>)} />
             </Switch>
           </main>
