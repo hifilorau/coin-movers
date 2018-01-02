@@ -97,6 +97,8 @@ class BitTools extends Component {
      let returnArr = [];
      let totalValue = 0;
      let totalValueFixed = 0;
+     let percentIncrease = 0;
+     let percentIncreaseTemp;
 
      snapshot.forEach(childSnapshot => {
          let item = childSnapshot.val();
@@ -119,8 +121,11 @@ class BitTools extends Component {
                  item.percent_change_7d = data.percent_change_7d
                  item.price_btc = this.convertUSDtoBTC(item.price_usd)
                  item.link = 'https://coinmarketcap.com/currencies/' + data.id
+                 item.percentIncreaseTemp =  item.price_usd / item.purchasePrice * 100;
+                 item.percentIncrease = item.percentIncreaseTemp.toFixed(0) - 100;
                  totalValue = totalValue + item.valueInUSD
                  totalValueFixed = totalValue.toFixed(2)
+                 console.log(percentIncrease)
                  this.setState( {totalValue:totalValueFixed} );
                return;
              });
@@ -263,7 +268,8 @@ class BitTools extends Component {
         {Number(row.value).toFixed(6)}
         </div>
         )
-    }, {
+    },
+    {
       Header: '1 Hr %',
       accessor: 'percent_change_1h',
       width: 80,
@@ -295,10 +301,29 @@ class BitTools extends Component {
         accessor: 'amount',
         width: 80,
         className: 'right-align'
-    }, {
+    },{
+        Header: 'Bought at',
+        accessor: 'purchasePrice',
+        className: 'right-align',
+        width: 90,
+        Cell: row => (<div>
+        ${Number(row.value).toFixed(2)}
+        </div>
+        )
+      }, {
+          Header: 'Percent +/-',
+          accessor: 'percentIncrease',
+          className: 'right-align',
+          width: 90,
+          Cell: row => (<div>
+          {row.value}%
+          </div>
+          )
+        },{
         Header: 'Total $',
         accessor: 'valueFixed',
-        className: 'right-align',
+        // className: 'right-align',
+        width: 100,
         Cell: row => (<div>
         ${row.value}
         </div>
